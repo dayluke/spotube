@@ -1,6 +1,9 @@
 // This will be run when the popup is opened.
+var notyf = new Notyf({ duration: 3500, dismissible: true });
 
 window.onload = () => {
+    // Null conditional operator to make sure the element has been correctly received.
+    document.getElementById('back-btn')?.addEventListener("click", backClicked);
     checkToken();
 }
 
@@ -95,14 +98,16 @@ async function playlistClicked(accessToken, pid) {
     var parsedTitle = await getTabTitle();
     console.log(parsedTitle);
 
-    fetch("https://api.spotify.com/v1/search?q=" + encodeURI(parsedTitle) + "&type=track", {headers: {'Authorization': 'Bearer ' + accessToken}})
-    .then(response => response.json())
+    fetch("https://api.spotify.com/v1/search?q=" + encodeURI(parsedTitle) + "&type=track",
+        {headers: {'Authorization': 'Bearer ' + accessToken}}
+    ).then(response => response.json())
     .then(json => {
         // We take the first track (in hope that it's desired)
         if (json.tracks.items.length > 0) return json.tracks.items[0].uri;
 
         console.error(`No song called '${parsedTitle}' could be found.`);
-        var errorMsg = `No song called '${parsedTitle.substring(0, parsedTitle.length >= 15 ? 15 : parsedTitle.length)}...' could be found.`
+        var errorMsg = `No song called '${parsedTitle.substring(0,
+            parsedTitle.length >= 15 ? 15 : parsedTitle.length)}...' could be found.`
         notyf.error(errorMsg);
 
     }).then(trackUri => {
@@ -184,7 +189,8 @@ function removeText(str, text, replacementText = "") {
 }
 
 /**
- * 
+ * Creates an iframe 30 seconds preview of the song which was added to the clicked playlist.
+ * The iframe replaces the 'data' element, and displays a back button to go back.
  * @param {string} tid the track id 
  */
 function createSongPreview(tid) {
@@ -201,4 +207,12 @@ function createSongPreview(tid) {
     songPreview.setAttribute("allow", "encrypted-media");
     songPreview.src = "https://open.spotify.com/embed/track/" + tid.substring(tid.indexOf('track:') + 6);
     previewContainer.insertBefore(songPreview, previewContainer.lastElementChild);
+}
+
+/**
+ * Toggles the visibility of the 'data' container, and the song preview.
+ */
+function backClicked() {
+    document.getElementById('data').style.display = null; // sets the data container back to 'display: flex'
+    document.getElementById('song-preview').style.display = 'none';
 }
