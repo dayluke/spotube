@@ -21,7 +21,7 @@ function checkToken() {
 /**
  * Retrieves the user's id, by using the access token, so that we can get
  * only the playlists made by the user (meaning they can add songs to them).
- * @param {string} accessToken 
+ * @param {string} accessToken
  */
 function getUserId(accessToken) {
     fetch("https://api.spotify.com/v1/me", { headers: {
@@ -46,7 +46,7 @@ function getUserId(accessToken) {
  * We also update the window.onscroll method to check if the user has 
  * scrolled to the bottom of the popup.html page. If they have then
  * repeat the process - loading the next 50 playlists.
- * @param {object} params 
+ * @param {object} params contains the url to fetch, the access token and the user id
  */
 function loadPlaylists(params) {
     fetch(params.url, { headers: {
@@ -57,10 +57,7 @@ function loadPlaylists(params) {
         // access token is most likely stale, so we get a new one.
         window.oauth2.start();
     }).then(response => response.json())
-    .then(json => {
-        console.log(params.uid);
-        // console.log(json);
-        
+    .then(json => {        
         var dataContainer = document.getElementById("data");
         
         json.items.forEach(playlist => {
@@ -87,4 +84,86 @@ function loadPlaylists(params) {
         };
 
     }).catch(error => console.log(error));
+}
+
+/**
+ * 
+ * @param {string} accessToken 
+ * @param {string} pid the playlist id
+ */
+async function playlistClicked(accessToken, pid) {
+    var parsedTitle = await getTabTitle();
+    console.log(parsedTitle);
+
+    fetch("https://api.spotify.com/v1/search?q=" + encodeURI(parsedTitle) + "&type=track", {headers: {'Authorization': 'Bearer ' + accessToken}})
+    .then(response => response.json())
+    .then(json => {
+        // We take the first track (in hope that it's desired)
+        if (json.tracks.items.length > 0) return json.tracks.items[0].uri;
+
+        console.error(`No song called '${parsedTitle}' could be found.`);
+        var errorMsg = `No song called '${parsedTitle.substring(0, parsedTitle.length >= 15 ? 15 : parsedTitle.length)}...' could be found.`
+        notyf.error(errorMsg);
+
+    }).then(trackUri => {
+        if (trackUri == undefined) return;
+
+        addSongToPlaylist(pid, trackUri, accessToken);
+    })
+    .catch(error => console.log(error));
+}
+
+/**
+ * Sends a POST request to add the track specified to the playlist specified
+ * @param {string} playlist the playlist to add the song to
+ * @param {string} tid the track id
+ * @param {string} token
+ */
+function addSongToPlaylist(playlist, tid, token) {
+    var options = {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token }
+    }    
+    
+    fetch("https://api.spotify.com/v1/playlists/" + playlist + "/tracks?uris=" + tid, options)
+    .catch(error => console.log(error))
+}
+
+/**
+ * A playlist was clicked, so get the title of the current tab
+ * (and parse it to determine the current song playing).
+ */
+function getTabTitle() {
+    return new Promise((resolve, reject) => {
+        try {
+            chrome.tabs.query({'active': true, 'currentWindow': true}, function (tabs) {
+                resolve(getSongTitle(tabs[0].title));
+            });
+        }
+        catch (e) { reject(e) };
+    });
+}
+
+function getSongTitle(titleOfPage) {
+    var pageTitle = titleOfPage.toLowerCase();
+    var stringsToRemove = [" - youtube", " (official music video)", "official music video",
+    "official video", "(official video)", "(official audio)", " (audio)", " | a colors show", " ft.", " -"];
+    var stringsToReplace = {
+        // str to replace: text to place it with
+        " x ": " "
+    }
+    
+    for (var i = 0; i < stringsToRemove.length; i++) {
+        pageTitle = removeText(pageTitle, stringsToRemove[i]);
+    }
+    
+    for (var str in stringsToReplace) {
+        pageTitle = removeText(pageTitle, str, stringsToReplace[str]);
+    }
+    
+    return pageTitle;
+}
+
+function removeText(str, text, replacementText = "") {    
+    return (str.indexOf(text) != -1) ? str.replace(text, replacementText) : str;
 }
