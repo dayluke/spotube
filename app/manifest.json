@@ -11,6 +11,19 @@
         {
             "matches": ["https://www.youtube.com/*", "http://www.youtube.com/*"],
             "js": ["content.js"]
+        },
+        {
+            "matches": ["https://www.google.com/?code*"],
+            "js": ["libs/oauth/injection.js"],
+            "run_at": "document_start"
         }
-    ]
+    ],
+    "permisssions": [
+        "tabs",
+        "storage"
+    ],
+    "icons": {
+        "128": "icon-128.png"
+    },
+    "web_accessible_resources": ["libs/*/*"]
 }
