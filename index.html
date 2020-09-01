@@ -10,7 +10,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+			integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
 		<link rel="stylesheet" type="text/css" href="style.css" />
 
 	</head>
@@ -19,11 +20,26 @@
 		<div class="landing">
 			<div class="hero">
 				<h1>Spotube</h1>
-				<button>Add to Chrome</button>
+				<button><a href="https://chrome.google.com/webstore/category/extensions" target="_blank">Add to Chrome</a></button> <!-- INSERT CHROME STORE LINK HERE! -->
 			</div>
+			<a href="#description-bg-video"><i class="fas fa-angle-down fa-3x"></i></a>
 		</div>
-		<i class="fas fa-angle-down fa-3x"></i>
-	
+		
+		<div class="description">
+			<div class="tint">
+				<video autoplay muted loop id="description-bg-video">
+					<source src="costa-rica-video.mp4" type="video/mp4">
+				</video>
+			</div>
+				
+			<p>
+				Ever heard a song that you love on YouTube? Ever wanted to add that song to your own playlist in two clicks?
+				Well now you can! With Spotube you can add songs to your playlists easier than it's ever been.
+				You don't even have to do any of the searching!
+			</p>
+			<a href="#"><i class="fas fa-angle-down fa-3x"></i></a>
+		</div>
+
 		<script src="script.js"></script>
 	</body>
 </html>

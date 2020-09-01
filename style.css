@@ -9,13 +9,22 @@ body {
     font-size: 100%;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 .landing {
-    height: calc(100vh - 3em);
+    position: relative;
+    height: 100vh;
     display: grid;
     place-items: center;
 }
 
-.hero{
+.landing a {
+    color: var(--clr-dark);
+}
+
+.hero {
     display: grid;
     place-items: center;
 }
@@ -29,12 +38,22 @@ h1 {
 
 button {
     border: none;
-    color: var(--clr-dark);
     background: var(--clr-green);
     padding: 1em;
-    font-size: 1em;
+}
+
+button a {
+    position: static;
+    font-size: 1.35em;
     font-weight: 700;
     text-align: center;
+    text-decoration: none;
+}
+
+a {
+    position: absolute;
+    align-self: end;
+    justify-self: center;
 }
 
 button:hover,
@@ -46,4 +65,34 @@ button:hover,
     width: 100%;
     text-align: center;
     color: var(--clr-dark);
+}
+
+.description {
+    position: relative;
+    display: grid;
+    align-items: center;
+}
+
+.description p {
+    position: absolute;
+    color: var(--clr-light);
+    font-size: 2em;
+    margin-left: 10%;
+    width: 30%;
+}
+
+.description .tint {
+    width: 100%;
+    background: #002b10;
+}
+
+#description-bg-video {
+    width: 100%;
+    max-height: 100vh;
+    object-fit: cover;
+    opacity: 0.3;
+}
+
+.description a {
+    color: var(--clr-light);
 }
