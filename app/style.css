@@ -14,6 +14,7 @@ body::-webkit-scrollbar {
 h1 {
     font-family: 'Roboto', sans-serif;
     text-align: center;
+    animation: zoomIn 1s;
     margin-bottom: 0;
 }
 
@@ -49,6 +50,21 @@ h1 {
     text-overflow: ellipsis;
 }
 
+#song-preview {
+    display: none;
+    text-align: center;
+}
+
+#song-preview p {
+    animation: jackInTheBox 0.75s;
+}
+
+iframe {
+    margin: 0 auto;
+    display: block;
+    padding: 0.5em;
+}
+
 #footer {
     text-align: center;
     font-size: 0.75em;
@@ -56,6 +72,7 @@ h1 {
 
 a {
     cursor: pointer;
+    animation: fadeIn 1s;
     transition: all 0.1s ease-in-out;
     color: white;
     text-decoration: none;
@@ -64,4 +81,12 @@ a {
 a:hover,
 a p:hover {
     opacity: 0.8;
+}
+
+.notyf__toast {
+    box-shadow: none;
+}
+
+.notyf__toast--lower {
+    margin-top: 0px;
 }

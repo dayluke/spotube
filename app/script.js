@@ -87,7 +87,7 @@ function loadPlaylists(params) {
 }
 
 /**
- * 
+ * Gets the song title, and adds the song to the playlist that was clicked.
  * @param {string} accessToken 
  * @param {string} pid the playlist id
  */
@@ -109,6 +109,10 @@ async function playlistClicked(accessToken, pid) {
         if (trackUri == undefined) return;
 
         addSongToPlaylist(pid, trackUri, accessToken);
+        return trackUri;
+    })
+    .then(uri => {
+        if (uri != undefined) createSongPreview(uri);
     })
     .catch(error => console.log(error));
 }
@@ -144,6 +148,11 @@ function getTabTitle() {
     });
 }
 
+/**
+ * Parses the title of the current page, to return a suitable string that can be used
+ * to search spotify with.
+ * @param {string} titleOfPage 
+ */
 function getSongTitle(titleOfPage) {
     var pageTitle = titleOfPage.toLowerCase();
     var stringsToRemove = [" - youtube", " (official music video)", "official music video",
@@ -164,6 +173,32 @@ function getSongTitle(titleOfPage) {
     return pageTitle;
 }
 
+/**
+ * Removes a string from a given text, or replaces it - if supplied with replacement text.
+ * @param {string} str 
+ * @param {string} text 
+ * @param {string} replacementText 
+ */
 function removeText(str, text, replacementText = "") {    
     return (str.indexOf(text) != -1) ? str.replace(text, replacementText) : str;
+}
+
+/**
+ * 
+ * @param {string} tid the track id 
+ */
+function createSongPreview(tid) {
+    document.getElementById('data').style.display = 'none';
+
+    var previewContainer = document.getElementById('song-preview')
+    previewContainer.style.display = 'initial';
+
+    var songPreview = document.createElement('iframe');
+    songPreview.setAttribute("width", 300);
+    songPreview.setAttribute("height", 80);
+    songPreview.setAttribute("frameborder", "0");
+    songPreview.setAttribute("allowtransparency", "true");
+    songPreview.setAttribute("allow", "encrypted-media");
+    songPreview.src = "https://open.spotify.com/embed/track/" + tid.substring(tid.indexOf('track:') + 6);
+    previewContainer.insertBefore(songPreview, previewContainer.lastElementChild);
 }
