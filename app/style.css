@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    font-size: 100%;
+    color: white;
+    background-color: rgb(24, 24, 24);
+    width: 360px;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+h1 {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
