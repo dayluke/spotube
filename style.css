@@ -1,0 +1,49 @@
+:root {
+    --clr-light: #ffffff;
+    --clr-green: #1db954;
+    --clr-dark: #191414;
+}
+body {
+    margin: 0;
+    font-family: 'Arial', serif;
+    font-size: 100%;
+}
+
+.landing {
+    height: calc(100vh - 3em);
+    display: grid;
+    place-items: center;
+}
+
+.hero{
+    display: grid;
+    place-items: center;
+}
+
+h1 {
+    font-family: 'Roboto';
+    font-size: 4.5em;
+    color: var(--clr-green);
+    text-align: center;
+}
+
+button {
+    border: none;
+    color: var(--clr-dark);
+    background: var(--clr-green);
+    padding: 1em;
+    font-size: 1em;
+    font-weight: 700;
+    text-align: center;
+}
+
+button:hover,
+.fas:hover {
+    cursor: pointer;
+}
+
+.fas {
+    width: 100%;
+    text-align: center;
+    color: var(--clr-dark);
+}
