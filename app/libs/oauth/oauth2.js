@@ -76,7 +76,7 @@
 
                 xhr.open('POST', "https://accounts.spotify.com/api/token", true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                var base64credentials = btoa(hidden.key);
+                var base64credentials = btoa(hidden.key + ":" + hidden.secret);
                 console.log(base64credentials);
                 xhr.setRequestHeader('Authorization','Basic ' + base64credentials);
                 xhr.send(data);
