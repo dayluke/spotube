@@ -4,6 +4,7 @@ body {
     color: white;
     background-color: rgb(24, 24, 24);
     width: 360px;
+    font-family: 'Arial', serif;
 }
 
 body::-webkit-scrollbar {
@@ -11,6 +12,56 @@ body::-webkit-scrollbar {
 }
 
 h1 {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
     text-align: center;
+    margin-bottom: 0;
+}
+
+#data {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: .75em;
+}
+  
+#data > div {
+    flex: 1;
+    justify-content: center;
+    margin: .75em;
+    cursor: pointer;
+}
+  
+#data > div > img {
+    min-width: 5vw;
+    width: 100%;
+    animation: zoomIn 1s;
+}
+  
+#data > div > p {
+    font-size: .7em;
+    font-family: 'Arial';
+    font-weight: 700;
+    letter-spacing: .25px;
+    margin: 0px;
+    width: 10.5em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#footer {
+    text-align: center;
+    font-size: 0.75em;
+}
+
+a {
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    color: white;
+    text-decoration: none;
+}
+
+a:hover,
+a p:hover {
+    opacity: 0.8;
 }
