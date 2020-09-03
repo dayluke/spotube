@@ -12,34 +12,56 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
 			integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+		<link rel="stylesheet" href="https://npmcdn.com/flickity@2/dist/flickity.css">
 		<link rel="stylesheet" type="text/css" href="style.css" />
 
 	</head>
 	
 	<body>
+
 		<div class="landing">
-			<div class="hero">
-				<h1>Spotube</h1>
-				<button><a href="https://chrome.google.com/webstore/category/extensions" target="_blank">Add to Chrome</a></button> <!-- INSERT CHROME STORE LINK HERE! -->
-			</div>
-			<a href="#description-bg-video"><i class="fas fa-angle-down fa-3x"></i></a>
-		</div>
-		
-		<div class="description">
 			<div class="tint">
-				<video autoplay muted loop id="description-bg-video">
-					<source src="costa-rica-video.mp4" type="video/mp4">
+				<video autoplay muted loop id="landing-bg-video">
+					<source src="spotube-promo.mp4" type="video/mp4">
 				</video>
 			</div>
 				
+			<div class="hero">
+				<h1>Spotube</h1>
+				<button><a href="https://chrome.google.com/webstore/detail/spotube-1-spotify-extensi/lfdlhobkfckpepnbffebllapncjmafma" target="_blank">Add to Chrome</a></button>
+			</div>
+			<a href="#desc" class="scroll-arrow"><i class="fas fa-angle-down fa-3x"></i></a>
+		</div>
+		
+		<div class="description" id="desc">
 			<p>
-				Ever heard a song that you love on YouTube? Ever wanted to add that song to your own playlist in two clicks?
-				Well now you can! With Spotube you can add songs to your playlists easier than it's ever been.
-				You don't even have to do any of the searching!
+				Spotube is the easiest and quickest tool for adding songs to your Spotify playlists.
+				<br><br>
+				Ever heard a song that you love on YouTube? Ever wanted to add that song
+				to your own playlist in two clicks? Well now you can! With Spotube you
+				can add songs to your playlists easier than it's ever been. You don't even
+				have to do any of the searching!
 			</p>
-			<a href="#"><i class="fas fa-angle-down fa-3x"></i></a>
+			
+			<div class="gallery">
+				<div class="carousel-cell">
+					<img src="scrnsht-2-1280x800.jpg"/>
+				</div>
+				<div class="carousel-cell">
+					<img src="scrnsht-1-1280x800.jpg"/>
+				</div>
+			</div>
+		</div>
+		
+		<div class="footer">
+			<p>Made by <a href="https://github.com/dayluke">Luke Day</a></p>
+			<a href="#landing-bg-video" class="scroll-arrow"><i class="fas fa-angle-up fa-3x"></i></a>
 		</div>
 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+			crossorigin="anonymous"></script>
+			
+		<script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js"></script>
 		<script src="script.js"></script>
 	</body>
 </html>

@@ -1,7 +1,7 @@
 :root {
     --clr-light: #ffffff;
     --clr-green: #1db954;
-    --clr-dark: #191414;
+    --clr-dark: #181818;
 }
 body {
     margin: 0;
@@ -15,45 +15,79 @@ body::-webkit-scrollbar {
 
 .landing {
     position: relative;
-    height: 100vh;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+}
+
+.landing p {
+    position: absolute;
+    color: var(--clr-light);
+    font-size: 2em;
+    margin-left: 10%;
+    width: 30%;
+    filter: drop-shadow(0 0 0.35em var(--clr-dark));
+}
+
+.landing .tint {
+    width: 100%;
+    background: var(--clr-green);
+}
+
+#landing-bg-video {
+    width: 100%;
+    max-height: 100vh;
+    object-fit: cover;
+    opacity: 0.2;
 }
 
 .landing a {
-    color: var(--clr-dark);
-}
-
-.hero {
-    display: grid;
-    place-items: center;
-}
-
-h1 {
-    font-family: 'Roboto';
-    font-size: 4.5em;
     color: var(--clr-green);
+}
+
+.scroll-arrow {
+    bottom: 0%;
+    left: calc(50% - 1em);
+    position: absolute;
+    align-self: end;
+    justify-self: center;
+}
+
+.landing .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.landing h1 {
+    font-family: 'Roboto';
+    /* font-size: 14em; */
+    font-size: calc(110px + (110) * (100vw / 1920));
+    color: var(--clr-light);
     text-align: center;
+    margin: 0.25em;
+}
+
+@media (orientation: portrait) {
+    body {
+        width: 100vh;
+    }
 }
 
 button {
     border: none;
-    background: var(--clr-green);
+    background: var(--clr-light);
     padding: 1em;
 }
 
 button a {
     position: static;
-    font-size: 1.35em;
+    font-size: 2em;
     font-weight: 700;
     text-align: center;
     text-decoration: none;
-}
-
-a {
-    position: absolute;
-    align-self: end;
-    justify-self: center;
 }
 
 button:hover,
@@ -69,30 +103,38 @@ button:hover,
 
 .description {
     position: relative;
-    display: grid;
-    align-items: center;
-}
-
-.description p {
-    position: absolute;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: var(--clr-dark);
     color: var(--clr-light);
     font-size: 2em;
-    margin-left: 10%;
-    width: 30%;
+    padding: 10vh 25vh;
 }
 
-.description .tint {
-    width: 100%;
-    background: #002b10;
+.footer {
+    position: relative;
+    color: var(--clr-dark);
+    text-align: center;
 }
 
-#description-bg-video {
-    width: 100%;
-    max-height: 100vh;
-    object-fit: cover;
-    opacity: 0.3;
+.footer .scroll-arrow {
+    bottom: unset;
+    top: 0%;
 }
 
-.description a {
-    color: var(--clr-light);
+.footer p {
+    padding: 1em;
+    padding-top: 2em;
+    font-size: 2em;
+}
+
+.footer p a {
+    text-decoration: none;
+    color: var(--clr-dark);
+    transition: 0.1s ease-in-out all;
+}
+
+.footer p a:hover {
+    opacity: 0.8;
 }
