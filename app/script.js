@@ -7,7 +7,7 @@ window.onload = () => {
     checkToken();
 
     getTabTitle().then(function(title) {
-		document.getElementById('song-title').innerHTML = title;
+		document.getElementById('song-name').value = title;
 	});
 }
 
@@ -99,7 +99,8 @@ function loadPlaylists(params) {
  * @param {string} pid the playlist id
  */
 async function playlistClicked(accessToken, pid) {
-    var parsedTitle = await getTabTitle();
+    document.getElementById('song-name').readOnly = true;
+    var parsedTitle = document.getElementById('song-name').value;
     console.log(parsedTitle);
 
     fetch("https://api.spotify.com/v1/search?q=" + encodeURI(parsedTitle) + "&type=track",
@@ -126,7 +127,7 @@ async function playlistClicked(accessToken, pid) {
             addSongToPlaylist(pid, trackUri, accessToken);
         });
 
-        document.getElementById('header').innerHTML = "<p>Matched song:</p>";
+        document.getElementById('header').innerHTML = "<p><strong>Matched song:</strong></p>";
         
         return trackUri;
     }).then(uri => {
@@ -241,6 +242,6 @@ function createSongPreview(tid) {
 function backClicked() {
     document.getElementById('data').style.display = null; // sets the data container back to 'display: flex'
     document.getElementById('confirmation').style.display = 'none';
-
-    document.getElementById('header').innerHTML = "<p>Choose playlist:</p>";
+    document.getElementById('song-name').readOnly = false;
+    document.getElementById('header').innerHTML = "<p><strong>Choose playlist:</strong></p>";
 }
