@@ -4,12 +4,13 @@
     "manifest_version": 2,
     "description": "An extension for easily adding YouTube songs to your Spotify playlists.",
     "page_action": {
+        "default_icon": "icon-128.png",
         "default_popup": "popup.html",
         "default_title": "Spotube - #1 Spotify extension"
     },
     "content_scripts": [
         {
-            "matches": ["https://www.youtube.com/*", "http://www.youtube.com/*"],
+            "matches": ["*://*.youtube.com/*"],
             "js": ["content.js"]
         },
         {
@@ -29,6 +30,5 @@
     "icons": {
         "128": "icon-128.png"
     },
-    "web_accessible_resources": ["libs/*/*"],
-    "incognito": "split"
+    "web_accessible_resources": ["libs/*/*"]
 }

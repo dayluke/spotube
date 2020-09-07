@@ -50,12 +50,12 @@ h1 {
     text-overflow: ellipsis;
 }
 
-#song-preview {
+#confirmation {
     display: none;
     text-align: center;
 }
 
-#song-preview p {
+#confirmation p {
     animation: jackInTheBox 0.75s;
 }
 
@@ -68,6 +68,12 @@ iframe {
 #footer {
     text-align: center;
     font-size: 0.75em;
+}
+
+#header {
+    animation: zoomIn 1s;
+    text-align: center;
+    font-size: 1em;
 }
 
 a {

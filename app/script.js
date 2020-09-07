@@ -5,6 +5,10 @@ window.onload = () => {
     // Null conditional operator to make sure the element has been correctly received.
     document.getElementById('back-btn')?.addEventListener("click", backClicked);
     checkToken();
+
+    getTabTitle().then(function(title) {
+		document.getElementById('song-title').innerHTML = title;
+	});
 }
 
 /**
@@ -113,10 +117,19 @@ async function playlistClicked(accessToken, pid) {
     }).then(trackUri => {
         if (trackUri == undefined) return;
 
-        addSongToPlaylist(pid, trackUri, accessToken);
+        // remove existing so there are not multiple events in case the user is clicking aobut
+        var confirmButton = document.getElementById('confirm-btn'),
+        newConfirmButton = confirmButton.cloneNode(true);
+        confirmButton.parentNode.replaceChild(newConfirmButton, confirmButton);
+
+        document.getElementById('confirm-btn')?.addEventListener("click", function() {
+            addSongToPlaylist(pid, trackUri, accessToken);
+        });
+
+        document.getElementById('header').innerHTML = "<p>Matched song:</p>";
+        
         return trackUri;
-    })
-    .then(uri => {
+    }).then(uri => {
         if (uri != undefined) createSongPreview(uri);
     })
     .catch(error => console.log(error));
@@ -135,7 +148,13 @@ function addSongToPlaylist(playlist, tid, token) {
     }    
     
     fetch("https://api.spotify.com/v1/playlists/" + playlist + "/tracks?uris=" + tid, options)
-    .catch(error => console.log(error))
+    .then(response => {
+        notyf.success("Successfully saved song to playlist!");
+    })
+    .catch(error => {
+        console.log(error);
+        notyf.error("An unexpected error occurred.");
+    });
 }
 
 /**
@@ -160,8 +179,13 @@ function getTabTitle() {
  */
 function getSongTitle(titleOfPage) {
     var pageTitle = titleOfPage.toLowerCase();
+
+    // do the bracketed ones first otherwise it wont match properly and leave brackets "()" behind!!
     var stringsToRemove = [" - youtube", " (official music video)", "official music video",
-    "official video", "(official video)", "(official audio)", " (audio)", " | a colors show", " ft.", " -"];
+    "(official video)", "official video", "(official audio)", " (audio)", " | a colors show", " ft.", 
+    "-", "(lyric video)", "lyric video", "(lyrics video)", "lyrics video", "(lyrics)", 
+    "lyrics", "(lyric)", "lyric"];
+
     var stringsToReplace = {
         // str to replace: text to place it with
         " x ": " "
@@ -195,8 +219,10 @@ function removeText(str, text, replacementText = "") {
  */
 function createSongPreview(tid) {
     document.getElementById('data').style.display = 'none';
+    document.getElementById('confirmation').style.display = 'block';
 
     var previewContainer = document.getElementById('song-preview')
+    previewContainer.innerHTML = null;
     previewContainer.style.display = 'initial';
 
     var songPreview = document.createElement('iframe');
@@ -206,7 +232,7 @@ function createSongPreview(tid) {
     songPreview.setAttribute("allowtransparency", "true");
     songPreview.setAttribute("allow", "encrypted-media");
     songPreview.src = "https://open.spotify.com/embed/track/" + tid.substring(tid.indexOf('track:') + 6);
-    previewContainer.insertBefore(songPreview, previewContainer.lastElementChild);
+    previewContainer.insertBefore(songPreview, previewContainer.lastChild);
 }
 
 /**
@@ -214,5 +240,7 @@ function createSongPreview(tid) {
  */
 function backClicked() {
     document.getElementById('data').style.display = null; // sets the data container back to 'display: flex'
-    document.getElementById('song-preview').style.display = 'none';
+    document.getElementById('confirmation').style.display = 'none';
+
+    document.getElementById('header').innerHTML = "<p>Choose playlist:</p>";
 }

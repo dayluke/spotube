@@ -1,1 +1,1 @@
-chrome.extension.onMessage.addListener((request, sender) => { if (request.message === "activate_icon") chrome.pageAction.show(sender.tab.id) });
+chrome.runtime.onMessage.addListener((request, sender) => { if (request.message === "activate_icon") chrome.pageAction.show(sender.tab.id) });
