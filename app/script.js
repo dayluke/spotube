@@ -99,7 +99,6 @@ function loadPlaylists(params) {
  * @param {string} pid the playlist id
  */
 async function playlistClicked(accessToken, pid) {
-    document.getElementById('song-name').readOnly = true;
     var parsedTitle = document.getElementById('song-name').value;
     console.log(parsedTitle);
 
@@ -118,6 +117,7 @@ async function playlistClicked(accessToken, pid) {
     }).then(trackUri => {
         if (trackUri == undefined) return;
 
+        document.getElementById('song-name').readOnly = true;
         // remove existing so there are not multiple events in case the user is clicking aobut
         var confirmButton = document.getElementById('confirm-btn'),
         newConfirmButton = confirmButton.cloneNode(true);
