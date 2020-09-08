@@ -7,6 +7,10 @@ body {
     font-family: 'Arial', serif;
 }
 
+* {
+    scrollbar-width: none;
+}
+
 body::-webkit-scrollbar {
     display: none;
 }
@@ -22,7 +26,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: .75em;
+    padding: 0em .75em;
 }
   
 #data > div {
@@ -50,12 +54,39 @@ h1 {
     text-overflow: ellipsis;
 }
 
-#song-preview {
+#info {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+    animation: zoomIn 1s;
+}
+
+#song-name {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 4px;
+    border-width: 2px;
+    border-color: #AAA;
+    background-color: rgb(24, 24, 24);
+    font-family: 'Arial', monospace;
+    transition: 0.2s;
+    width: 60%;
+    text-align: center;
+    color: #FFF;
+}
+
+#song-name:read-only {
+    border-color: #555;
+    color: #888;
+}
+
+#confirmation {
     display: none;
     text-align: center;
 }
 
-#song-preview p {
+#confirmation p {
     animation: jackInTheBox 0.75s;
 }
 
@@ -68,6 +99,14 @@ iframe {
 #footer {
     text-align: center;
     font-size: 0.75em;
+}
+
+#header {
+    margin-top: 1em;
+    margin-bottom: 0;
+    animation: zoomIn 1s;
+    text-align: center;
+    font-size: 1em;
 }
 
 a {
