@@ -30,5 +30,6 @@
     "icons": {
         "128": "icon-128.png"
     },
-    "web_accessible_resources": ["libs/*/*"]
+    "web_accessible_resources": ["libs/*/*"],
+    "incognito": "split"
 }

@@ -62,12 +62,10 @@ h1 {
 }
 
 #song-name {
-    border-top: none;
-    border-left: none;
-    border-right: none;
+    border: none;
     border-radius: 4px;
-    border-width: 2px;
-    border-color: #AAA;
+    border-bottom: inset;
+    border-bottom-color: #AAA;
     background-color: rgb(24, 24, 24);
     font-family: 'Arial', monospace;
     transition: 0.2s;
@@ -77,11 +75,13 @@ h1 {
 }
 
 #song-name:read-only {
-    border-color: #555;
+    border-bottom-color: #555;
     color: #888;
+    cursor: initial;
 }
 
 #confirmation {
+    font-family: 'Roboto';
     display: none;
     text-align: center;
 }
@@ -107,6 +107,8 @@ iframe {
     animation: zoomIn 1s;
     text-align: center;
     font-size: 1em;
+    font-family: 'Roboto', 'Arial', sans-serif;
+    font-weight: 700;
 }
 
 a {
@@ -128,4 +130,9 @@ a p:hover {
 
 .notyf__toast--lower {
     margin-top: 0px;
+}
+
+.green_text {
+    color: #1DB954;
+    font-weight: 700;
 }
