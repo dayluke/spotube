@@ -6,9 +6,7 @@ window.onload = () => {
     document.getElementById('back-btn')?.addEventListener("click", backClicked);
     checkToken();
 
-    getTabTitle().then(function(title) {
-		document.getElementById('song-name').value = title;
-	});
+    getTabTitle().then(title => document.getElementById('song-name').value = title);
 }
 
 /**
@@ -47,15 +45,19 @@ function getUserId(accessToken) {
  * Fetches a list of the user's playlists (the limit is 50 per call).
  * This list is iterated through to pick out only the playlists of 
  * which are owned by the user - so that we can edit (add) them.
- * For each of the user-owned playlists, we add the necessary HTML
- * elements so that the playlist can be displayed in the popup.html
- * correctly.
+ * For each of the user-owned playlists, we call the 
+ * createPlaylistPreview methods which generates HTML for the playlist.
  * We also update the window.onscroll method to check if the user has 
  * scrolled to the bottom of the popup.html page. If they have then
  * repeat the process - loading the next 50 playlists.
  * @param {object} params contains the url to fetch, the access token and the user id
  */
 function loadPlaylists(params) {
+    var dataContainer = document.getElementById("data");
+    
+    dataContainer.appendChild(createPlaylistPreview(params.token, "liked-songs", "Liked Songs"));
+
+    
     fetch(params.url, { headers: {
         'Authorization': 'Bearer ' + params.token}})
     .then(result => {
@@ -64,22 +66,13 @@ function loadPlaylists(params) {
         // access token is most likely stale, so we get a new one.
         window.oauth2.start();
     }).then(response => response.json())
-    .then(json => {        
-        var dataContainer = document.getElementById("data");
+    .then(json => {
         
         json.items.forEach(playlist => {
             
             if (playlist.owner.id !== params.uid) return;
-            var item = document.createElement("div");
-            item.onclick = () => playlistClicked(params.token, playlist.id);
-            var image = document.createElement("img");
-            image.src = playlist.images[0].url;
-            var nameText = document.createElement("p");
-            nameText.appendChild(document.createTextNode(playlist.name));
-            item.appendChild(image);
-            item.appendChild(nameText);
-            dataContainer.appendChild(item);
-            
+            dataContainer.appendChild(createPlaylistPreview(params.token, playlist.id,
+                playlist.name, playlist.images[0].url));
         });
 
         params.url = json.next;
@@ -94,11 +87,34 @@ function loadPlaylists(params) {
 }
 
 /**
+ * Creates various HTML Elements and appends them as children
+ * where necessary to construct a nicely formatted preview
+ * of the user's playlists.
+ * @param {string} token 
+ * @param {string} id 
+ * @param {string} name 
+ * @param {string} imageUrl 
+ * @returns A formatted HTML Element that represents one of the user's playlists.
+ */
+function createPlaylistPreview(token, id, name, imageUrl = "https://uploads-ssl.webflow.com/"
+        + "5e36e6f21212670638c0d63c/5e39d85cee05be53d238681a_likedSongs.png") {
+    var playlist = document.createElement("div");
+    playlist.onclick = () => playlistClicked(token, id);
+    var image = document.createElement("img");
+    image.src = imageUrl;
+    var nameText = document.createElement("p");
+    nameText.appendChild(document.createTextNode(name));
+    playlist.appendChild(image);
+    playlist.appendChild(nameText);
+    return playlist;
+}
+
+/**
  * Gets the song title, and adds the song to the playlist that was clicked.
  * @param {string} accessToken 
  * @param {string} pid the playlist id
  */
-async function playlistClicked(accessToken, pid) {
+function playlistClicked(accessToken, pid) {
     var parsedTitle = document.getElementById('song-name').value;
     console.log(parsedTitle);
 
@@ -118,7 +134,7 @@ async function playlistClicked(accessToken, pid) {
         if (trackUri == undefined) return;
 
         document.getElementById('song-name').readOnly = true;
-        // remove existing so there are not multiple events in case the user is clicking aobut
+        // remove existing so there are not multiple events in case the user is clicking about
         var confirmButton = document.getElementById('confirm-btn'),
         newConfirmButton = confirmButton.cloneNode(true);
         confirmButton.parentNode.replaceChild(newConfirmButton, confirmButton);
@@ -127,7 +143,7 @@ async function playlistClicked(accessToken, pid) {
             addSongToPlaylist(pid, trackUri, accessToken);
         });
 
-        document.getElementById('header').innerHTML = "<p><strong>Matched song:</strong></p>";
+        document.getElementById('header').innerHTML = "Matched song:";
         
         return trackUri;
     }).then(uri => {
@@ -146,10 +162,34 @@ function addSongToPlaylist(playlist, tid, token) {
     var options = {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + token }
-    }    
+    }
+
+    if (playlist == "liked-songs") {
+        addSongToLikedSongs(tid, options);
+        return;
+    }
     
     fetch("https://api.spotify.com/v1/playlists/" + playlist + "/tracks?uris=" + tid, options)
     .then(response => {
+        backClicked();
+        notyf.success("Successfully saved song to playlist!");
+    })
+    .catch(error => {
+        console.log(error);
+        notyf.error("An unexpected error occurred.");
+    });
+}
+
+/**
+ * Sends a PUT request to tadd the track specified to the Liked Songs playlist.
+ * @param {string} track the track to add to Liked Songs
+ * @param {string} headers the Authorization header and the PUT header.
+ */
+function addSongToLikedSongs(track, headers) {
+    headers.method = "PUT"
+    fetch("https://api.spotify.com/v1/me/tracks?ids=" + track.replace("spotify:track:", ""), headers)
+    .then(response => {
+        backClicked();
         notyf.success("Successfully saved song to playlist!");
     })
     .catch(error => {
@@ -182,10 +222,10 @@ function getSongTitle(titleOfPage) {
     var pageTitle = titleOfPage.toLowerCase();
 
     // do the bracketed ones first otherwise it wont match properly and leave brackets "()" behind!!
-    var stringsToRemove = [" - youtube", " (official music video)", "official music video",
+    var stringsToRemove = [" - youtube", "youtube", " (official music video)", "official music video",
     "(official video)", "official video", "(official audio)", " (audio)", " | a colors show", " ft.", 
     "-", "(lyric video)", "lyric video", "(lyrics video)", "lyrics video", "(lyrics)", 
-    "lyrics", "(lyric)", "lyric"];
+    "lyrics", "(lyric)", "lyric", "†"];
 
     var stringsToReplace = {
         // str to replace: text to place it with
@@ -210,7 +250,10 @@ function getSongTitle(titleOfPage) {
  * @param {string} replacementText 
  */
 function removeText(str, text, replacementText = "") {    
-    return (str.indexOf(text) != -1) ? str.replace(text, replacementText) : str;
+    while (str.indexOf(text) != -1) {
+        str = str.replace(text, replacementText);
+    }
+    return str; 
 }
 
 /**
@@ -243,5 +286,5 @@ function backClicked() {
     document.getElementById('data').style.display = null; // sets the data container back to 'display: flex'
     document.getElementById('confirmation').style.display = 'none';
     document.getElementById('song-name').readOnly = false;
-    document.getElementById('header').innerHTML = "<p><strong>Choose playlist:</strong></p>";
+    document.getElementById('header').innerHTML = "Choose playlist:";
 }
