@@ -14,7 +14,7 @@
             "js": ["content.js"]
         },
         {
-            "matches": ["https://www.google.com/?code*"],
+            "matches": ["*://*.youtube.com/?code*"],
             "js": ["libs/oauth/injection.js"],
             "run_at": "document_start"
         }
