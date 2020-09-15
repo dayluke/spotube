@@ -6,7 +6,7 @@
         client_id: hidden.key,
         client_secret: hidden.secret,
         redirect_url: "https://www.youtube.com",
-        scopes: ["user-library-modify", "user-top-read", "playlist-read-private", "playlist-modify-public", "playlist-modify-private"],
+        scopes: ["user-library-modify", "playlist-read-private", "playlist-modify-public", "playlist-modify-private"],
         token: '',
 
         /**
