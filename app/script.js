@@ -58,6 +58,8 @@ function getUserId(accessToken) {
 function loadPlaylists(params) {
     var dataContainer = document.getElementById("data");
     var nomore_playlist = document.getElementById("no_more_playlist");
+
+    dataContainer.appendChild(createPlaylistPreview(params.token, "liked-songs", "Liked Songs"));
     
     fetch(params.url, { headers: {
         'Authorization': 'Bearer ' + params.token}})
@@ -68,8 +70,6 @@ function loadPlaylists(params) {
         window.oauth2.start();
     }).then(response => response.json())
     .then(json => {
-
-        dataContainer.appendChild(createPlaylistPreview(params.token, "liked-songs", "Liked Songs"));
 
         json.items.forEach(playlist => {
             if (playlist.owner.id !== params.uid) return;
