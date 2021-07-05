@@ -69,6 +69,8 @@ function loadPlaylists(params) {
     }).then(response => response.json())
     .then(json => {
 
+        dataContainer.appendChild(createPlaylistPreview(params.token, "liked-songs", "Liked Songs"));
+
         json.items.forEach(playlist => {
             if (playlist.owner.id !== params.uid) return;
 
