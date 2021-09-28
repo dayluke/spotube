@@ -36,7 +36,10 @@ function getUserId(accessToken) {
         loadPlaylists({
             "url": "https://api.spotify.com/v1/me/playlists?limit=50",
             "uid": json.id,
-            "token": accessToken
+            "token": accessToken,
+            "offset": 0,
+            "limit": 50,
+            "no_more": false
         });
     });
 }
@@ -54,9 +57,9 @@ function getUserId(accessToken) {
  */
 function loadPlaylists(params) {
     var dataContainer = document.getElementById("data");
-    
-    dataContainer.appendChild(createPlaylistPreview(params.token, "liked-songs", "Liked Songs"));
+    var nomore_playlist = document.getElementById("no_more_playlist");
 
+    dataContainer.appendChild(createPlaylistPreview(params.token, "liked-songs", "Liked Songs"));
     
     fetch(params.url, { headers: {
         'Authorization': 'Bearer ' + params.token}})
@@ -67,18 +70,35 @@ function loadPlaylists(params) {
         window.oauth2.start();
     }).then(response => response.json())
     .then(json => {
-        
+
         json.items.forEach(playlist => {
-            
             if (playlist.owner.id !== params.uid) return;
+
+            if (playlist.images.length == 0) {
+                dataContainer.appendChild(createPlaylistPreview(params.token, playlist.id,
+                    playlist.name));
+                return;
+            }
             dataContainer.appendChild(createPlaylistPreview(params.token, playlist.id,
                 playlist.name, playlist.images[0].url));
         });
 
-        params.url = json.next;
+        if (json.items.length == 0 || json.items.length < params.limit) {
+            var no_more = document.createElement("p");
+            no_more.id = "nomore";
+            no_more.innerText = "You don't have more playlist to see";
+            nomore_playlist.appendChild(no_more);
+            params.no_more = true;
+        }
+
+        params.offset += 50;
+
+        next_url = "https://api.spotify.com/v1/me/playlists?offset=" + params.offset + "&limit=" + params.limit;
+
+        params.url = next_url;
 
         window.onscroll = () => {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && params.no_more == false) {
                 loadPlaylists(params);
             }
         };

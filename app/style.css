@@ -101,6 +101,11 @@ iframe {
     font-size: 0.75em;
 }
 
+#nomore {
+    text-align: center;
+    font-size: 0.85em;
+}
+
 #header {
     margin-top: 1em;
     margin-bottom: 0;
