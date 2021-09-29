@@ -30,10 +30,10 @@
          */
         finish: function(url) {
 
-            function removeTab() {
-                chrome.tabs.query({'active': true, 'currentWindow': true}, function (tabs) {
-                    chrome.tabs.remove(tabs[0].id);
-                });
+            async function removeTab() {
+                let queryOptions = { active: true, currentWindow: true };
+                let [tab] = await chrome.tabs.query(queryOptions);
+                chrome.tabs.remove(tab.id);
             };
 
             if (url.match(/\?error=(.+)/)) {
@@ -45,7 +45,6 @@
                 var data = "grant_type=authorization_code&code=" + code + "&redirect_uri=" + this.redirect_url;
                 sendAuthTokenRequest(data);
             }
-
 
             function sendAuthTokenRequest(data) {
                 // Send request for authorization token.
