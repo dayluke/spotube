@@ -244,7 +244,7 @@ function getSongTitle(titleOfPage) {
     // do the bracketed ones first otherwise it wont match properly and leave brackets "()" behind!!
     var stringsToRemove = [" - youtube music", " - youtube", "youtube", " (official music video)", "official music video",
     "(official video)", "official video", "(official audio)", " (audio)", " | a colors show", " ft.", 
-    "-", "(lyric video)", "lyric video", "(lyrics video)", "lyrics video", "(lyrics)", 
+    " -", "(lyric video)", "lyric video", "(lyrics video)", "lyrics video", "(lyrics)", 
     "lyrics", "(lyric)", "lyric", "†"];
 
     var stringsToReplace = {
