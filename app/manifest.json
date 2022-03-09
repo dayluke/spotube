@@ -1,6 +1,6 @@
 {
     "name": "Spotube - #1 Spotify extension",
-    "version": "2.3",
+    "version": "3.0",
     "manifest_version": 3,
     "description": "An extension for easily adding YouTube songs to your Spotify playlists.",
     "action": {
