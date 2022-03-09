@@ -4,7 +4,7 @@
 ## Description
 Spotube is the easiest and quickest tool for adding songs to your Spotify playlists.
 
-Ever heard a song that you love on YouTube? Ever wanted to add that song to your own
+Ever heard a song that you love on YouTube or SoundCloud? Ever wanted to add that song to your own
 playlist in two clicks? Well now you can! With Spotube you can add songs to your
 playlists easier than it's ever been. You don't even have to do any of the searching!
 

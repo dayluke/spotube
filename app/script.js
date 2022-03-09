@@ -249,7 +249,8 @@ function getSongTitle(titleOfPage) {
 
     var stringsToReplace = {
         // str to replace: text to place it with
-        " x ": " "
+        " x ": " ",
+        " by ": " "
     }
     
     for (var i = 0; i < stringsToRemove.length; i++) {

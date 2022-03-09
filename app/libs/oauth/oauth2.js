@@ -3,8 +3,8 @@
 
         access_token_url: "https://accounts.spotify.com/api/token",
         authorization_url: "https://accounts.spotify.com/authorize",
-        client_id: hidden.key,
-        client_secret: hidden.secret,
+        client_id: atob(hidden.key),
+        client_secret: atob(hidden.secret),
         redirect_url: "https://www.youtube.com",
         scopes: ["user-library-modify", "playlist-read-private", "playlist-modify-public", "playlist-modify-private"],
         token: '',
