@@ -1,12 +1,12 @@
 {
-    "name": "Spotube - #1 Spotify extension",
-    "version": "3.0",
+    "name": "Spotube - Youtube to Spotify extension",
+    "version": "3.2",
     "manifest_version": 3,
-    "description": "An extension for easily adding YouTube songs to your Spotify playlists.",
+    "description": "A two-click extension for easily adding YouTube songs to your Spotify playlists.",
     "action": {
         "default_icon": "icon-128.png",
         "default_popup": "popup.html",
-        "default_title": "Spotube - #1 Spotify extension"
+        "default_title": "Spotube - Youtube to Spotify extension"
     },
     "content_scripts": [
         {
