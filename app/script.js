@@ -31,7 +31,12 @@ function checkToken() {
 function getUserId(accessToken) {
     fetch("https://api.spotify.com/v1/me", { headers: {
         'Authorization': 'Bearer ' + accessToken }})
-    .then(response => response.json())
+    .then(response => {
+        // If the response fails, then it's most likely due to an 
+        // expired token in the user's local storage.
+        if (response.ok) return response.json();
+        else throw new Error("Token expired, requesting new one.");
+    })
     .then(json => {
         loadPlaylists({
             "url": "https://api.spotify.com/v1/me/playlists?limit=50",
@@ -41,6 +46,10 @@ function getUserId(accessToken) {
             "limit": 50,
             "no_more": false
         });
+    })
+    .catch(error => {
+        console.log(error);
+        window.oauth2.start();
     });
 }
 
@@ -60,15 +69,14 @@ function loadPlaylists(params) {
     var nomore_playlist = document.getElementById("no_more_playlist");
 
     dataContainer.appendChild(createPlaylistPreview(params.token, "liked-songs", "Liked Songs"));
+    var options = {
+        headers: {
+            'Authorization': 'Bearer ' + params.token
+        }
+    }
     
-    fetch(params.url, { headers: {
-        'Authorization': 'Bearer ' + params.token}})
-    .then(result => {
-        if (result.ok) return result;
-        // If the result of the request is not ok, then the current
-        // access token is most likely stale, so we get a new one.
-        window.oauth2.start();
-    }).then(response => response.json())
+    fetch(params.url, options)
+    .then(response => response.json())
     .then(json => {
 
         json.items.forEach(playlist => {
